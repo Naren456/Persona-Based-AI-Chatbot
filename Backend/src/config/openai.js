@@ -12,8 +12,8 @@ dotenv.config({ path: path.join(__dirname, "..", "..", ".env") });
 export const openai = process.env.OPENAI_API_KEY
   ? new OpenAI({
       apiKey: process.env.OPENAI_API_KEY,
-      baseURL: "https://generativelanguage.googleapis.com/v1beta/openai/"
+      baseURL: "https://openrouter.ai/api/v1"
     })
   : null;
 
-export const DEFAULT_MODEL = process.env.OPENAI_MODEL || "gemini-3-flash-preview";
+export const DEFAULT_MODEL = process.env.OPENAI_MODEL || "nvidia/nemotron-3-nano-omni-30b-a3b-reasoning:free";
