@@ -1,7 +1,8 @@
 import React from "react";
-import { StyleSheet, View, Text, useWindowDimensions } from "react-native";
+import { StyleSheet, View, Text, useWindowDimensions, Platform } from "react-native";
 import Animated, { FadeIn } from "react-native-reanimated";
 import { Ionicons } from "@expo/vector-icons";
+import Markdown from "react-native-markdown-display";
 import { COLORS, SPACING, TYPOGRAPHY } from "../constants/theme";
 import { ChatMessage as ChatMessageType } from "../types/chat";
 
@@ -33,12 +34,62 @@ export const ChatMessage = ({ message, accentColor = COLORS.accent }: ChatMessag
         </View>
         <View style={styles.content}>
           <Text style={styles.roleText}>{isUser ? "You" : "Mentor"}</Text>
-          <Text style={styles.text}>{message.content}</Text>
+          <Markdown style={markdownStyles}>
+            {message.content}
+          </Markdown>
         </View>
       </View>
     </Animated.View>
   );
 };
+
+const markdownStyles = StyleSheet.create({
+  body: {
+    ...TYPOGRAPHY.body,
+    color: "#ececec",
+  },
+  paragraph: {
+    marginTop: 0,
+    marginBottom: 8,
+  },
+  strong: {
+    color: "#ffffff",
+    fontWeight: "800",
+  },
+  code_inline: {
+    backgroundColor: "rgba(255, 255, 255, 0.1)",
+    borderRadius: 4,
+    paddingHorizontal: 4,
+    color: "#ffffff",
+    fontFamily: Platform.OS === "ios" ? "Menlo" : "monospace",
+  },
+  fence: {
+    backgroundColor: "rgba(0, 0, 0, 0.3)",
+    borderRadius: 8,
+    padding: 12,
+    marginVertical: 8,
+    borderWidth: 1,
+    borderColor: "rgba(255, 255, 255, 0.1)",
+  },
+  code_block: {
+    color: "#ffffff",
+    fontFamily: Platform.OS === "ios" ? "Menlo" : "monospace",
+    fontSize: 13,
+  },
+  link: {
+    color: COLORS.accent,
+    textDecorationLine: "underline",
+  },
+  list_item: {
+    marginBottom: 4,
+  },
+  bullet_list: {
+    marginBottom: 8,
+  },
+  ordered_list: {
+    marginBottom: 8,
+  },
+});
 
 const styles = StyleSheet.create({
   container: {
@@ -71,9 +122,5 @@ const styles = StyleSheet.create({
     fontWeight: "800",
     color: "#ffffff",
     marginBottom: 4,
-  },
-  text: {
-    ...TYPOGRAPHY.body,
-    color: "#ececec",
   },
 });

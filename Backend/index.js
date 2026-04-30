@@ -17,13 +17,18 @@ const port = process.env.PORT || 4000;
 const allowedOrigin = process.env.CLIENT_ORIGIN || "*";
 
 // Middleware
-app.use(cors({ origin: allowedOrigin }));
+app.use(cors({ origin:"*",credentials:true, methods: ["GET", "POST", "PUT", "DELETE"], allowedHeaders: ["Content-Type", "Authorization"] }));
 app.use(express.json({ limit: "1mb" }));
 app.use("/assets", express.static(path.join(__dirname, "assets")));
 
 // Route mounting
 app.use("/api", personaRoutes);
 app.use("/api", chatRoutes);
+
+app.use("/",(_req,_res,next)=>{
+  console.log(1);
+  next()
+})
 
 // Error handling
 app.use((error, _req, res, next) => {
