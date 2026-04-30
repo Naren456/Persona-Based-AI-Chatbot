@@ -14,10 +14,9 @@ dotenv.config();
 
 const app = express();
 const port = process.env.PORT || 4000;
-const allowedOrigin = process.env.CLIENT_ORIGIN || "*";
 
 // Middleware
-app.use(cors({ origin:"*",credentials:true, methods: ["GET", "POST", "PUT", "DELETE"], allowedHeaders: ["Content-Type", "Authorization"] }));
+app.use(cors({ origin: "*", methods: ["GET", "POST", "PUT", "DELETE"], allowedHeaders: ["Content-Type", "Authorization"] }));
 app.use(express.json({ limit: "1mb" }));
 app.use("/assets", express.static(path.join(__dirname, "assets")));
 

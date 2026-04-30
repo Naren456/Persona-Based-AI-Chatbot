@@ -37,7 +37,6 @@ export default function Index() {
     error,
     switchPersona,
     sendMessage,
-    resetChat, // Need to implement this in useChat or just use switchPersona(activeId)
   } = useChat();
 
   const handleContentSizeChange = () => {
@@ -63,19 +62,6 @@ export default function Index() {
         {isSidebarVisible && (
           <View style={[styles.sidebar, !isDesktop && styles.mobileSidebar]}>
             <View style={styles.sidebarHeader}>
-              <Pressable
-                onPress={resetChat}
-                style={({ pressed }) => [
-                  styles.newChatButton,
-                  pressed && { backgroundColor: "rgba(255, 255, 255, 0.1)" },
-                ]}
-              >
-                <View style={styles.newChatContent}>
-                  <Ionicons name="add-circle-outline" size={20} color="#ffffff" />
-                  <Text style={styles.newChatText}>New Chat</Text>
-                </View>
-                <Ionicons name="create-outline" size={20} color={COLORS.secondary} />
-              </Pressable>
               {!isDesktop && (
                 <Pressable onPress={toggleSidebar} style={styles.closeSidebar}>
                   <Ionicons name="close" size={24} color="#ffffff" />
@@ -116,11 +102,6 @@ export default function Index() {
                 </Text>
                 <Text style={styles.headerSubtitle}>{activePersona?.accent}</Text>
               </View>
-            </View>
-            <View style={styles.headerRight}>
-              <Pressable style={styles.iconButton}>
-                <Ionicons name="share-outline" size={20} color={COLORS.secondary} />
-              </Pressable>
             </View>
           </View>
 
@@ -221,28 +202,6 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     gap: SPACING.sm,
-  },
-  newChatButton: {
-    flex: 1,
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-    paddingVertical: 10,
-    paddingHorizontal: 12,
-    borderRadius: 8,
-    backgroundColor: "transparent",
-    borderWidth: 1,
-    borderColor: "rgba(255, 255, 255, 0.1)",
-  },
-  newChatContent: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 8,
-  },
-  newChatText: {
-    color: "#ffffff",
-    fontWeight: "600",
-    fontSize: 14,
   },
   closeSidebar: {
     padding: 4,

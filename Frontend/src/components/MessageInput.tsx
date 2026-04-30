@@ -7,20 +7,18 @@ import {
   ActivityIndicator,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import { COLORS, SPACING, SHADOWS } from "../constants/theme";
+import { COLORS, SPACING } from "../constants/theme";
 
 interface MessageInputProps {
   onSend: (message: string) => void;
   isLoading: boolean;
   placeholder?: string;
-  accentColor?: string;
 }
 
 export const MessageInput = ({
   onSend,
   isLoading,
   placeholder = "Message...",
-  accentColor = COLORS.accent,
 }: MessageInputProps) => {
   const [text, setText] = useState("");
 
@@ -35,7 +33,7 @@ export const MessageInput = ({
     <View style={styles.container}>
       <View style={styles.inputWrapper}>
         <TextInput
-          style={styles.input}
+          style={[styles.input, { outlineStyle: "none" } as any]}
           placeholder={placeholder}
           placeholderTextColor={COLORS.secondary}
           value={text}
@@ -43,23 +41,29 @@ export const MessageInput = ({
           multiline
           maxLength={2000}
           editable={!isLoading}
+          onKeyPress={(e: any) => {
+            if (e.nativeEvent.key === "Enter" && !e.shiftKey) {
+              e.preventDefault();
+              handleSend();
+            }
+          }}
         />
         <Pressable
           onPress={handleSend}
           disabled={!text.trim() || isLoading}
           style={({ pressed }) => [
             styles.sendButton,
-            { backgroundColor: text.trim() ? "#ffffff" : "rgba(255, 255, 255, 0.1)" },
+            { backgroundColor: text.trim() ? COLORS.primary : "rgba(255, 255, 255, 0.05)" },
             pressed && { opacity: 0.8 },
           ]}
         >
           {isLoading ? (
-            <ActivityIndicator color={COLORS.background} size="small" />
+            <ActivityIndicator color="#ffffff" size="small" />
           ) : (
             <Ionicons 
               name="arrow-up" 
               size={20} 
-              color={text.trim() ? COLORS.background : COLORS.secondary} 
+              color={text.trim() ? "#ffffff" : COLORS.secondary} 
             />
           )}
         </Pressable>
@@ -80,7 +84,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "flex-end",
     backgroundColor: "#2f2f2f",
-    borderRadius: 24,
+    borderRadius: 16,
     paddingLeft: 16,
     paddingRight: 8,
     paddingVertical: 8,
@@ -100,9 +104,10 @@ const styles = StyleSheet.create({
   sendButton: {
     width: 32,
     height: 32,
-    borderRadius: 8,
+    borderRadius: 16,
     justifyContent: "center",
     alignItems: "center",
+    marginLeft: 8,
     marginBottom: 4,
   },
 });
