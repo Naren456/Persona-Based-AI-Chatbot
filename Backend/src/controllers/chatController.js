@@ -41,7 +41,7 @@ export const handleChat = async (req, res) => {
   } catch (error) {
     console.error("Chat API error:", error);
     return res.status(500).json({
-      error: "The AI service is temporarily unavailable. Please try again in a moment."
+      error: error.message || "The AI service is temporarily unavailable. Please try again in a moment."
     });
   }
 };
