@@ -29,7 +29,10 @@ export const handleChat = async (req, res) => {
       messages: [
         { role: "system", content: persona.systemPrompt },
         ...conversation
-      ]
+      ],
+      extra_body: {
+        reasoning: { enabled: true }
+      }
     });
 
     const reply = completion.choices?.[0]?.message?.content?.trim();
